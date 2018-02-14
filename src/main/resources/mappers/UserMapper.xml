@@ -15,19 +15,68 @@
       <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
     </constructor>
   </resultMap>
+
   <sql id="Base_Column_List" >
     id, username, password, email, phone, question, answer, role, create_time, update_time
   </sql>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from mmall_user
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+
+  <select id="checkUsername" resultType="int">
+    select count(1) from mmall_user
+    where username = #{username}
+  </select>
+
+  <select id="checkEmail" parameterType="string" resultType="int">
+    select count(1) from mmall_user
+    where email = #{email}
+  </select>
+
+  <select id="selectLogin" resultMap="BaseResultMap" parameterType="map">
+    select
+    <include refid="Base_Column_List" />
+    from mmall_user
+    where username = #{username}
+    and password = #{password}
+  </select>
+
+    <select id="selectQuestionByUsername" resultType="string" parameterType="string">
+      select
+        question
+      from mmall_user
+      where username = #{username}
+    </select>
+
+  <select id="checkAnswer" resultType="int" parameterType="map">
+    select count(1)
+    from mmall_user
+    where username = #{username}
+    and question = #{question}
+    and answer = #{answer}
+  </select>
+
+    <select id="checkPassword" resultType="int" parameterType="map">
+        select count(1) from mmall_user
+        where id = #{userId}
+        and password = #{password}
+    </select>
+
+    <select id="checkEmailByUserId" resultType="int" parameterType="map">
+        select count(1) from mmall_user
+        where email = #{email}
+        and id != #{userId}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from mmall_user
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
   <insert id="insert" parameterType="com.tmall.pojo.User" >
     insert into mmall_user (id, username, password, 
       email, phone, question, 
@@ -37,6 +86,7 @@
       #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{question,jdbcType=VARCHAR}, 
       #{answer,jdbcType=VARCHAR}, #{role,jdbcType=INTEGER}, now(), now())
   </insert>
+
   <insert id="insertSelective" parameterType="com.tmall.pojo.User" >
     insert into mmall_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -104,6 +154,7 @@
       </if>
     </trim>
   </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.tmall.pojo.User" >
     update mmall_user
     <set >
@@ -137,6 +188,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+
   <update id="updateByPrimaryKey" parameterType="com.tmall.pojo.User" >
     update mmall_user
     set username = #{username,jdbcType=VARCHAR},
@@ -150,4 +202,11 @@
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <update id="updatePasswordByUsername" parameterType="map">
+    update mmall_user
+    set password = #{passwordNew}, update_time = now()
+    where username = #{username}
+  </update>
+
 </mapper>
