@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tmall.dao.CategoryMapper" >
+
   <resultMap id="BaseResultMap" type="com.tmall.pojo.Category" >
     <constructor >
       <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
@@ -12,19 +13,30 @@
       <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
     </constructor>
   </resultMap>
+
   <sql id="Base_Column_List" >
     id, parent_id, name, status, sort_order, create_time, update_time
   </sql>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from mmall_category
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+    <select id="selectChildrenParallelCategoryByParentId" resultMap="BaseResultMap" parameterType="int">
+    select
+        <include refid="Base_Column_List"/>
+      from mmall_category
+      where parent_id = #{parentId}
+    </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from mmall_category
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
   <insert id="insert" parameterType="com.tmall.pojo.Category" >
     insert into mmall_category (id, parent_id, name, 
       status, sort_order, create_time, 
@@ -32,6 +44,7 @@
     values (#{id,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
       #{status,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}, now(), now())
   </insert>
+
   <insert id="insertSelective" parameterType="com.tmall.pojo.Category" >
     insert into mmall_category
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -81,6 +94,7 @@
       </if>
     </trim>
   </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.tmall.pojo.Category" >
     update mmall_category
     <set >
@@ -105,6 +119,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+
   <update id="updateByPrimaryKey" parameterType="com.tmall.pojo.Category" >
     update mmall_category
     set parent_id = #{parentId,jdbcType=INTEGER},
@@ -115,4 +130,5 @@
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+
 </mapper>
