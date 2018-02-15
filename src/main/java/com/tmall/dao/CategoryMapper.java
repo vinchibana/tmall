@@ -5,6 +5,7 @@ import com.tmall.pojo.Category;
 import java.util.List;
 
 public interface CategoryMapper {
+
     int deleteByPrimaryKey(Integer id);
 
     int insert(Category record);
