@@ -23,11 +23,11 @@ target/
 *.iws
 
 # temp file
-*.log
 *.cache
 *.diff
 *.patch
 *.tmp
+/logs/
 
 # system ignore
 Thumbs.db
