@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tmall.dao.OrderItemMapper" >
+
   <resultMap id="BaseResultMap" type="com.tmall.pojo.OrderItem" >
     <constructor >
       <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
@@ -16,20 +17,32 @@
       <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
     </constructor>
   </resultMap>
+
   <sql id="Base_Column_List" >
     id, user_id, order_no, product_id, product_name, product_image, current_unit_price, 
     quantity, total_price, create_time, update_time
   </sql>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from mmall_order_item
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+  <select id="getByOrderNoUserId" parameterType="map" resultMap="BaseResultMap">
+    select
+      <include refid="Base_Column_List"/>
+    from mmall_order_item
+    where order_no = #{orderNo}
+    and user_id = #{userId}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from mmall_order_item
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
   <insert id="insert" parameterType="com.tmall.pojo.OrderItem" >
     insert into mmall_order_item (id, user_id, order_no, 
       product_id, product_name, product_image, 
@@ -39,6 +52,7 @@
       #{productId,jdbcType=INTEGER}, #{productName,jdbcType=VARCHAR}, #{productImage,jdbcType=VARCHAR}, 
       #{currentUnitPrice,jdbcType=DECIMAL}, #{quantity,jdbcType=INTEGER}, #{totalPrice,jdbcType=DECIMAL}, now(), now())
   </insert>
+
   <insert id="insertSelective" parameterType="com.tmall.pojo.OrderItem" >
     insert into mmall_order_item
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -112,6 +126,7 @@
       </if>
     </trim>
   </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.tmall.pojo.OrderItem" >
     update mmall_order_item
     <set >
@@ -148,6 +163,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+
   <update id="updateByPrimaryKey" parameterType="com.tmall.pojo.OrderItem" >
     update mmall_order_item
     set user_id = #{userId,jdbcType=INTEGER},
@@ -162,4 +178,5 @@
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+
 </mapper>

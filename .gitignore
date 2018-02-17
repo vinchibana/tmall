@@ -28,6 +28,7 @@ target/
 *.patch
 *.tmp
 /logs/
+/Desktop/
 
 # system ignore
 Thumbs.db
