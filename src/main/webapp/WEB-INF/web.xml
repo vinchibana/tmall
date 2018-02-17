@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          id="WebApp_ID" version="2.5">
 
-  <display-name>Archetype Created Web Application</display-name>
+  <display-name>Tmall</display-name>
 
   <filter>
     <filter-name>characterEncodingFilter</filter-name>
