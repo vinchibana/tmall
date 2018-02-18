@@ -67,7 +67,6 @@ public class CategoryManagerController {
         } else {
             return ServerResponse.createByErrorMessage("无权限操作，需要管理员权限");
         }
-
     }
 
     @RequestMapping(value = "get_deep_category.do")
@@ -83,6 +82,5 @@ public class CategoryManagerController {
         } else {
             return ServerResponse.createByErrorMessage("无权限操作，需要管理员权限");
         }
-
     }
 }
