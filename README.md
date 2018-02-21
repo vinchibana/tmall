@@ -1,6 +1,6 @@
 # JavaWeb 电商计划 v1.0
 
-[![url](https://img.shields.io/badge/URL-shuwuai.cc-ff69b4.svg?style=flat-square)](http://shuwuai.cc)  [![Telegram](https://img.shields.io/badge/Add-Telegram-green.svg?style=flat-square&logo=telegram)](https://telegram.me/shuwuai) [![Twitter Follow](https://img.shields.io/twitter/follow/espadrine.svg?style=social&label=Follow&logo=twitter)](https://twitter.com/shuwuai)
+[![url](https://img.shields.io/badge/URL-shuwuai.cc-ff69b4.svg?style=flat-square)](http://shuwuai.cc)&emsp;[![Telegram](https://img.shields.io/badge/Add-Telegram-green.svg?style=flat-square&logo=telegram)](https://telegram.me/shuwuai)&emsp;[![Twitter Follow](https://img.shields.io/twitter/follow/espadrine.svg?style=social&label=Follow&logo=twitter)](https://twitter.com/shuwuai)
 
 JavaWeb 初学项目，参考慕课网：https://coding.imooc.com/class/96.html
 > 上线地址（备案中……🤣）：http://shuwuai.tech
