@@ -2,7 +2,11 @@ package com.tmall.pojo;
 
 import java.util.Date;
 
+/**
+ * 支付
+ */
 public class PayInfo {
+
     private Integer id;
 
     private Integer userId;
@@ -20,6 +24,7 @@ public class PayInfo {
     private Date updateTime;
 
     public PayInfo(Integer id, Integer userId, Long orderNo, Integer payPlatform, String platformNumber, String platformStatus, Date createTime, Date updateTime) {
+
         this.id = id;
         this.userId = userId;
         this.orderNo = orderNo;

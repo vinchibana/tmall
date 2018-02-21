@@ -5,6 +5,11 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import java.io.Serializable;
 
+/**
+ * 全局高复用服务响应对象
+ * @param <T>
+ */
+
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class ServerResponse<T> implements Serializable {
 

@@ -174,7 +174,7 @@
       <version>2.0.1</version>
     </dependency>
 
-    <!-- Mybatis Page helper 插件 -->
+    <!-- Mybatis PageHelper 插件 -->
     <dependency>
       <groupId>com.github.pagehelper</groupId>
       <artifactId>pagehelper</artifactId>

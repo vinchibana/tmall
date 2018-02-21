@@ -2,7 +2,11 @@ package com.tmall.pojo;
 
 import java.util.Date;
 
+/**
+ * 商品目录，sortOrder 用于分页排序
+ */
 public class Category {
+
     private Integer id;
 
     private Integer parentId;
@@ -18,6 +22,7 @@ public class Category {
     private Date updateTime;
 
     public Category(Integer id, Integer parentId, String name, Boolean status, Integer sortOrder, Date createTime, Date updateTime) {
+
         this.id = id;
         this.parentId = parentId;
         this.name = name;

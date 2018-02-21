@@ -3,7 +3,11 @@ package com.tmall.pojo;
 import java.math.BigDecimal;
 import java.util.Date;
 
+/**
+ * 购物车内商品
+ */
 public class OrderItem {
+
     private Integer id;
 
     private Integer userId;

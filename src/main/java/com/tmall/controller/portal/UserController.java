@@ -21,7 +21,13 @@ public class UserController {
     private IUserService iUserService;
 
     /**
-     * 商城用户登录
+     * 不加 @RequestParam 注解的理由：
+     * 1.Http 协议携带参数，无外乎两个三个存储地点：1.URL 上 ，2.Header 里 3.Body里
+     * 2.GET 请求是没有 Body 的，数据全都放在 URL 上，以 ?username=value&password=value 形式。注：GET 请求时依然有 Header 的，比如 GET 请求下载文件，要指定 Content-Type为 zip，file 等
+     * 3.POST 请求数据都放在 Body 里
+     * 4.@RequestParam 是使用的 request.getParam()
+     * 5.SpringMVC Controller不加任何注解，都可以使参数传进来，只要参数名称与 Http 传过来的一样即可
+     * 大概是最后一条的锅...
      */
     @RequestMapping(value = "login.do", method = RequestMethod.POST)
     @ResponseBody

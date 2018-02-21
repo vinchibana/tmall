@@ -145,5 +145,4 @@ public class Const {
             this.code = code;
         }
     }
-
 }

@@ -2,7 +2,11 @@ package com.tmall.pojo;
 
 import java.util.Date;
 
+/**
+ * 购物车
+ */
 public class Cart {
+
     private Integer id;
 
     private Integer userId;
@@ -18,6 +22,7 @@ public class Cart {
     private Date updateTime;
 
     public Cart(Integer id, Integer userId, Integer productId, Integer quantity, Integer checked, Date createTime, Date updateTime) {
+
         this.id = id;
         this.userId = userId;
         this.productId = productId;

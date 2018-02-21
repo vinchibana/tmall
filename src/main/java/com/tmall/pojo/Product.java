@@ -3,7 +3,11 @@ package com.tmall.pojo;
 import java.math.BigDecimal;
 import java.util.Date;
 
+/**
+ * 商品
+ */
 public class Product {
+
     private Integer id;
 
     private Integer categoryId;
@@ -29,6 +33,7 @@ public class Product {
     private Date updateTime;
 
     public Product(Integer id, Integer categoryId, String name, String subtitle, String mainImage, String subImages, String detail, BigDecimal price, Integer stock, Integer status, Date createTime, Date updateTime) {
+
         this.id = id;
         this.categoryId = categoryId;
         this.name = name;
