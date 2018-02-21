@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 
 public class BigDecimalTest {
 
+    // 直接赋值测试
     @Test
     public void test1() {
         System.out.println(0.05 + 0.01);
@@ -14,6 +15,7 @@ public class BigDecimalTest {
         System.out.println(123.3 / 100);
     }
 
+    // double 构造器测试
     @Test
     public void test2() {
         BigDecimal b1 = new BigDecimal(0.05);
@@ -21,6 +23,7 @@ public class BigDecimalTest {
         System.out.println(b1.add(b2));
     }
 
+    // String 构造器测试
     @Test
     public void test3() {
         BigDecimal b1 = new BigDecimal("0.05");

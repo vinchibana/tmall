@@ -21,6 +21,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public ServerResponse<User> login(String username, String password) {
+        // 先 check 是否存在该用户名
         int resultCount = userMapper.checkUsername(username);
         if (resultCount == 0) {
             return ServerResponse.createByErrorMessage("用户名不存在");
@@ -130,6 +131,9 @@ public class UserServiceImpl implements IUserService {
         return ServerResponse.createByErrorMessage("修改密码失败");
     }
 
+    /**
+     * 重置密码时已提供旧密码，只校验用户是否为当前登录用户,旧密码是否正确
+     */
     public ServerResponse<String> resetPassword(String passwordOld, String passwordNew, User user) {
         int resultCount = userMapper.checkPassword(MD5Util.MD5EncodeUtf8(passwordOld), user.getId());
         if (resultCount == 0) {

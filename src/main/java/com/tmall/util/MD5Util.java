@@ -2,14 +2,16 @@ package com.tmall.util;
 
 import java.security.MessageDigest;
 
+/**
+ * MD5 加密工具类
+ */
 public class MD5Util {
 
     private static String byteArrayToHexString(byte b[]) {
-        StringBuffer resultSb = new StringBuffer();
+        StringBuffer resultString = new StringBuffer();
         for (int i = 0; i < b.length; i++)
-            resultSb.append(byteToHexString(b[i]));
-
-        return resultSb.toString();
+            resultString.append(byteToHexString(b[i]));
+        return resultString.toString();
     }
 
     private static String byteToHexString(byte b) {
@@ -22,23 +24,21 @@ public class MD5Util {
     }
 
     /**
-     * 返回大写MD5
-     *
-     * @param origin
-     * @param charsetname
-     * @return
+     * 返回大写 MD5 密码
+     * @param origin 原始值
+     * @param charsetName 编码用字符集
+     * @return 返回大写 MD5
      */
-    private static String MD5Encode(String origin, String charsetname) {
+    private static String MD5Encode(String origin, String charsetName) {
         String resultString = null;
         try {
-            resultString = new String(origin);
+            resultString = origin;
             MessageDigest md = MessageDigest.getInstance("MD5");
-            if (charsetname == null || "".equals(charsetname))
+            if (charsetName == null || "".equals(charsetName)) // 避免空指针异常
                 resultString = byteArrayToHexString(md.digest(resultString.getBytes()));
             else
-                resultString = byteArrayToHexString(md.digest(resultString.getBytes(charsetname)));
-        } catch (Exception exception) {
-        }
+                resultString = byteArrayToHexString(md.digest(resultString.getBytes(charsetName)));
+        } catch (Exception exception) {}
         return resultString.toUpperCase();
     }
 

@@ -14,7 +14,12 @@ public class TokenCache {
 
     public static final String TOKEN_PROFIX = "token_";
 
-    // LRU
+    /**
+     * LRU
+     * 1. 新数据插入到链表头部；
+     * 2. 每当缓存命中（即缓存数据被访问），则将数据移到链表头部；
+     * 3. 当链表满的时候，将链表尾部的数据丢弃。
+     */
     private static LoadingCache<String, String> localCache = CacheBuilder.newBuilder().initialCapacity(1000).maximumSize(10000).expireAfterAccess(12, TimeUnit.HOURS).build(new CacheLoader<String, String>() {
         @Override
         public String load(String key) throws Exception {

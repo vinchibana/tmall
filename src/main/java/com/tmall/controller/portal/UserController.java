@@ -35,6 +35,7 @@ public class UserController {
 
         ServerResponse<User> response = iUserService.login(username, password);
         if (response.isSuccess()) {
+            // session 获得 response(ServerResponse 类) getData 方法的返回值，即 user 对象，作为属性，因此登录成功后前端同时获得 status,
             session.setAttribute(Const.CURRENT_USER, response.getData());
         }
         return response;
