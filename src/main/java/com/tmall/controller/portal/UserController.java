@@ -5,6 +5,9 @@ import com.tmall.common.ResponseCode;
 import com.tmall.common.ServerResponse;
 import com.tmall.pojo.User;
 import com.tmall.service.IUserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +24,8 @@ public class UserController {
     private IUserService iUserService;
 
     /**
+     * 用户登入登出
+     *
      * 不加 @RequestParam 注解的理由：
      * 1.Http 协议携带参数，无外乎两个三个存储地点：1.URL 上 ，2.Header 里 3.Body里
      * 2.GET 请求是没有 Body 的，数据全都放在 URL 上，以 ?username=value&password=value 形式。注：GET 请求时依然有 Header 的，比如 GET 请求下载文件，要指定 Content-Type为 zip，file 等
@@ -34,8 +39,9 @@ public class UserController {
     public ServerResponse<User> login(String username, String password, HttpSession session) {
 
         ServerResponse<User> response = iUserService.login(username, password);
+
+        // return this.status = ResponseCode.SUCCESS.getCode()
         if (response.isSuccess()) {
-            // session 获得 response(ServerResponse 类) getData 方法的返回值，即 user 对象，作为属性，因此登录成功后前端同时获得 status,
             session.setAttribute(Const.CURRENT_USER, response.getData());
         }
         return response;
@@ -48,10 +54,11 @@ public class UserController {
         return ServerResponse.createBySuccess();
     }
 
+    // todo 包装 pojo 类型神自动封装 ？
     @RequestMapping(value = "register.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<String> register(User user) {
-        return iUserService.register(user);
+        return iUserService.register(user); // return msg: 注册成功 OR 注册失败
     }
 
     @RequestMapping(value = "check_valid.do", method = RequestMethod.POST)
@@ -62,6 +69,8 @@ public class UserController {
 
     @RequestMapping(value = "get_user_info.do", method = RequestMethod.POST)
     @ResponseBody
+
+    // 不需传入 user 对象，直接从 session 获取当前登录 user 对象，也不需查询数据库，与 get_information 方法不同
     public ServerResponse<User> getUserInfo(HttpSession session) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user != null) {
@@ -70,6 +79,11 @@ public class UserController {
         return ServerResponse.createByErrorMessage("用户未登录，无法获取当前用户信息");
     }
 
+    /**
+     * 忘记密码，获取重置密码的安全问题
+     * @param username 用户名
+     * @return 重置密码的安全问题
+     */
     @RequestMapping(value = "forget_get_question.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<String> forgetGetQuestion(String username) {
@@ -106,6 +120,8 @@ public class UserController {
             return ServerResponse.createByErrorMessage("用户未登录");
         }
         user.setId(currentUser.getId());
+
+        // username 不能被更新，因此提前 set
         user.setUsername(currentUser.getUsername());
         ServerResponse<User> response = iUserService.updateInformation(user);
         if (response.isSuccess()) {

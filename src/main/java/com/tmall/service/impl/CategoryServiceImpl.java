@@ -16,6 +16,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * 主要难点为递归寻找 parentId
+ */
 @Service
 public class CategoryServiceImpl implements ICategoryService {
 
@@ -29,6 +32,7 @@ public class CategoryServiceImpl implements ICategoryService {
             return ServerResponse.createByErrorMessage("添加品类参数错误");
         }
 
+        // id, sortOrder 不需设置，updateTime, createTime 由 SQL 处理为 now(), 仅需传入categoryName, parentId, status
         Category category = new Category();
         category.setName(categoryName);
         category.setParentId(parentId);
@@ -66,10 +70,12 @@ public class CategoryServiceImpl implements ICategoryService {
         return ServerResponse.createBySuccess(categoryList);
     }
 
+    // ex：传入 categoryId = 0，查询子节点为 100001~100005
+    // 再次查询 100001 子节点为 100006~100012，下同
     public ServerResponse<List<Integer>> selectCategoryAndChildrenById(Integer categoryId) {
 
         Set<Category> categorySet = Sets.newHashSet();
-        findChildCategory(categorySet, categoryId);
+        categorySet = findChildCategory(categorySet, categoryId);
 
         List<Integer> categoryIdList = Lists.newArrayList();
         if (categoryId != null) {

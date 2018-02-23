@@ -54,6 +54,8 @@ public class ServerResponse<T> implements Serializable {
         return data;
     }
 
+    // 所有方法返回均包含 status (success / error code)
+
     public static <T> ServerResponse<T> createBySuccess() {
         return new ServerResponse<T>(ResponseCode.SUCCESS.getCode());
     }

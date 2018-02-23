@@ -2,6 +2,8 @@
 
 [![url](https://img.shields.io/badge/URL-shuwuai.cc-ff69b4.svg?style=flat-square)](http://shuwuai.cc)&emsp;[![Telegram](https://img.shields.io/badge/Add-Telegram-green.svg?style=flat-square&logo=telegram)](https://telegram.me/shuwuai)&emsp;[![Twitter Follow](https://img.shields.io/twitter/follow/espadrine.svg?style=social&label=Follow&logo=twitter)](https://twitter.com/shuwuai)
 
+> 02/22/18 更新：Code Review & 添加“纯小白”风格注释中，勿黑
+
 JavaWeb 初学项目，参考慕课网：https://coding.imooc.com/class/96.html
 > 上线地址（备案中……🤣）：http://shuwuai.tech
 
@@ -23,11 +25,11 @@ JavaWeb 初学项目，参考慕课网：https://coding.imooc.com/class/96.html
 * 其他依赖参见 `pom.xml`
 
 ## 后端部分一期核心
-SpringMVC + MyBatis
-前后端分离
-高服用服务响应对象的设计思想及抽象分装，ServerResponse<T> 对象承载
+* SpringMVC + MyBatis
+* 前后端分离
+* 高复用服务响应对象的设计思想及抽象分装，ServerResponse<T> 对象承载，类比 `ModelAndView`
 
-![jetbran](http://oxgw3nd2b.bkt.clouddn.com/jetbran.png)
+![jetbrains](http://oxgw3nd2b.bkt.clouddn.com/jetbran.png)
 
 ## 模块构成
 * 用户（登入登出、鉴权、注册、重置密码、获取/更新用户信息）
@@ -47,4 +49,3 @@ Response
 Content-Type: 
 application/json;charset=UTF-8
 ```
-
