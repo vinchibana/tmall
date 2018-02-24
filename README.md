@@ -1,6 +1,8 @@
-# JavaWeb 电商计划 v1.0
+# JavaWeb 电商计划 v2.0
 
 [![url](https://img.shields.io/badge/URL-shuwuai.cc-ff69b4.svg?style=flat-square)](http://shuwuai.cc)&emsp;[![Telegram](https://img.shields.io/badge/Add-Telegram-green.svg?style=flat-square&logo=telegram)](https://telegram.me/shuwuai)&emsp;[![Twitter Follow](https://img.shields.io/twitter/follow/espadrine.svg?style=social&label=Follow&logo=twitter)](https://twitter.com/shuwuai)
+
+> 02/24/18 2.0开工，覆盖Tomcat集群+Nginx负载均衡+Redis分布式
 
 > 02/24/18 按照阿里巴巴Java代码规约插件规范代码，一期后端杀青
 
