@@ -6,10 +6,9 @@ import com.tmall.common.ServerResponse;
 import com.tmall.dao.CategoryMapper;
 import com.tmall.pojo.Category;
 import com.tmall.service.ICategoryService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +18,9 @@ import java.util.Set;
 /**
  * 主要难点为递归寻找 parentId
  */
+@Slf4j
 @Service
 public class CategoryServiceImpl implements ICategoryService {
-
-    private Logger logger = LoggerFactory.getLogger(CategoryServiceImpl.class);
 
     @Autowired
     private CategoryMapper categoryMapper;
@@ -68,7 +66,7 @@ public class CategoryServiceImpl implements ICategoryService {
 
         List<Category> categoryList = categoryMapper.selectChildrenParallelCategoryByParentId(categoryId);
         if (CollectionUtils.isEmpty(categoryList)) {
-            logger.info("未找到当前分类的子分类");
+            log.info("未找到当前分类的子分类");
         }
         return ServerResponse.createBySuccess(categoryList);
     }
