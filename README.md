@@ -3,6 +3,7 @@
 [![url](https://img.shields.io/badge/URL-shuwuai.cc-ff69b4.svg?style=flat-square)](http://shuwuai.cc)&emsp;[![Telegram](https://img.shields.io/badge/Add-Telegram-green.svg?style=flat-square&logo=telegram)](https://telegram.me/shuwuai)&emsp;[![Twitter Follow](https://img.shields.io/twitter/follow/espadrine.svg?style=social&label=Follow&logo=twitter)](https://twitter.com/shuwuai)
 
 > 02/24/18 按照阿里巴巴Java代码规约插件规范代码，一期后端杀青
+
 > 02/22/18 更新：Code Review & 添加“纯小白”风格注释中，勿黑
 
 JavaWeb 初学项目，参考慕课网：https://coding.imooc.com/class/96.html

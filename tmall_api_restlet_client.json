@@ -5,7 +5,7 @@
     {
       "type": "Project",
       "id": "5d3a1c3a-227e-4ac8-a11c-67e0aebe264f",
-      "lastModified": "2018-02-23T01:42:12.706+08:00",
+      "lastModified": "2018-02-24T13:12:01.997+08:00",
       "name": "tmall"
     },
     {
@@ -781,11 +781,11 @@
           "delimiter": "&",
           "items": [
             {
+              "enabled": true,
               "name": "productName",
               "value": "美的"
             },
             {
-              "enabled": true,
               "name": "productId",
               "value": "27"
             }
@@ -799,7 +799,7 @@
         "path": "/manage/product/search.do"
       },
       "id": "78603d07-ba38-4a2f-9446-662af860134f",
-      "lastModified": "2018-02-15T18:25:13.308+08:00",
+      "lastModified": "2018-02-23T22:34:35.406+08:00",
       "name": "search.do",
       "headers": [],
       "metaInfo": {
@@ -1066,7 +1066,7 @@
             {
               "enabled": true,
               "name": "receiverName",
-              "value": "katie"
+              "value": "kt"
             },
             {
               "enabled": true,
@@ -1076,7 +1076,7 @@
             {
               "enabled": true,
               "name": "receiverMobile",
-              "value": "15854276596"
+              "value": "18888888888"
             },
             {
               "enabled": true,
@@ -1096,7 +1096,7 @@
             {
               "enabled": true,
               "name": "receiverAddress",
-              "value": "双子座"
+              "value": ""
             },
             {
               "enabled": true,
@@ -1113,7 +1113,7 @@
         "path": "/shipping/add.do"
       },
       "id": "e5d2717a-5f26-4bf1-9050-a9a9e54056dc",
-      "lastModified": "2018-02-16T14:04:47.347+08:00",
+      "lastModified": "2018-02-24T13:12:01.998+08:00",
       "name": "add.do",
       "headers": [],
       "metaInfo": {
