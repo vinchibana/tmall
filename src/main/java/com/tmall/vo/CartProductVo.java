@@ -15,7 +15,7 @@ public class CartProductVo {
     private Integer productStatus;
     private BigDecimal productTotalPrice;
     private Integer productStock;
-    private Integer productChecked; // 商品是否勾选
+    private Integer productChecked;
 
     private String limitQuantity;
 

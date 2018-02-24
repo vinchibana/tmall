@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Iterator;
 import java.util.Map;
 
 @Controller
@@ -82,9 +81,6 @@ public class OrderController {
     }
 
 
-
-
-
     // 支付宝
 
     @RequestMapping(value = "pay.do")
@@ -104,9 +100,8 @@ public class OrderController {
 
         Map<String, String> params = Maps.newHashMap();
         Map requestParams = request.getParameterMap();
-        for (Iterator iter = requestParams.keySet().iterator();
-        iter.hasNext();) {
-            String name = (String)iter.next();
+        for (Object o : requestParams.keySet()) {
+            String name = (String) o;
             String[] values = (String[]) requestParams.get(name);
             String valueStr = "";
             for (int i = 0; i < values.length; i++) {
@@ -142,8 +137,8 @@ public class OrderController {
         }
         ServerResponse serverResponse = iOrderService.queryOrderPayStatus(user.getId(), orderNo);
         if (serverResponse.isSuccess()) {
-            return serverResponse.createBySuccess(true);
+            return ServerResponse.createBySuccess(true);
         }
-        return serverResponse.createBySuccess(false);
+        return ServerResponse.createBySuccess(false);
     }
 }

@@ -5,6 +5,9 @@ import com.tmall.common.ServerResponse;
 import com.tmall.pojo.Product;
 import com.tmall.vo.ProductDetailVo;
 
+/**
+ * @author qiuxin
+ */
 public interface IProductService {
 
     ServerResponse saveOrUpdateProduct(Product product);

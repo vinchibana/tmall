@@ -19,17 +19,23 @@ public class ShippingServiceImpl implements IShippingService {
     @Autowired
     private ShippingMapper shippingMapper;
 
+    @Override
     public ServerResponse add(Integer userId, Shipping shipping) {
         shipping.setUserId(userId);
+
+        // insert方法的useGeneratedKeys="true" keyProperty="id"，把新增加的主键赋值到自己定义的keyProperty中，插入parameterType（Shipping类对象）
         int rowCount = shippingMapper.insert(shipping);
         if (rowCount > 0) {
-            Map result = Maps.newHashMap();
+
+            // 前端返回信息用，采用上面返回的新增shippingId
+            Map<String, Integer> result = Maps.newHashMap();
             result.put("shippingId", shipping.getId());
             return ServerResponse.createBySuccess("创建新收货地址成功", result);
         }
         return ServerResponse.createByErrorMessage("创建新收货地址失败");
     }
 
+    @Override
     public ServerResponse<String> del(Integer userId, Integer shippingId) {
         int resultCount = shippingMapper.deleteByShippingIdUserId(shippingId, userId);
         if (resultCount > 0) {
@@ -38,6 +44,7 @@ public class ShippingServiceImpl implements IShippingService {
         return ServerResponse.createByErrorMessage("删除收货地址失败");
     }
 
+    @Override
     public ServerResponse update(Integer userId, Shipping shipping) {
         shipping.setUserId(userId);
         int rowCount = shippingMapper.updateByShipping(shipping);
@@ -47,6 +54,7 @@ public class ShippingServiceImpl implements IShippingService {
         return ServerResponse.createByErrorMessage("修改收货地址失败");
     }
 
+    @Override
     public ServerResponse<Shipping> select(Integer userId, Integer shippingId) {
         Shipping shipping = shippingMapper.selectByShippingIdUserId(userId, shippingId);
         if (shipping == null) {
@@ -55,6 +63,8 @@ public class ShippingServiceImpl implements IShippingService {
         return ServerResponse.createBySuccess("更新地址成功", shipping);
     }
 
+    @Override
+    @SuppressWarnings({"raw type", "unchecked"})
     public ServerResponse<PageInfo> list(Integer userId, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Shipping> shippingList = shippingMapper.selectByUserId(userId);

@@ -20,7 +20,7 @@ import com.tmall.pojo.*;
 import com.tmall.service.IOrderService;
 import com.tmall.util.BigDecimalUtil;
 import com.tmall.util.DateTimeUtil;
-import com.tmall.util.FTPUtil;
+import com.tmall.util.FtpUtil;
 import com.tmall.util.PropertiesUtil;
 import com.tmall.vo.OrderItemVo;
 import com.tmall.vo.OrderProductVo;
@@ -61,6 +61,7 @@ public class OrderServiceImpl implements IOrderService {
     @Autowired
     private ShippingMapper shippingMapper;
 
+    @Override
     public ServerResponse createOrder(Integer userId, Integer shippingId) {
         List<Cart> cartList = cartMapper.selectCheckedCartByUserId(userId);
 
@@ -99,6 +100,7 @@ public class OrderServiceImpl implements IOrderService {
 
     }
 
+    @Override
     public ServerResponse<String> cancel(Integer userId, long orderNo) {
         Order order = orderMapper.selectByUserIdAndOrderNo(userId, orderNo);
         if (order == null) {
@@ -118,6 +120,7 @@ public class OrderServiceImpl implements IOrderService {
         return ServerResponse.createByError();
     }
 
+    @Override
     public ServerResponse getOrderCartProduct(Integer userId) {
         OrderProductVo orderProductVo = new OrderProductVo();
 
@@ -140,6 +143,7 @@ public class OrderServiceImpl implements IOrderService {
         return ServerResponse.createBySuccess(orderProductVo);
     }
 
+    @Override
     public ServerResponse<OrderVo> getOrderDetail(Integer userId, Long orderNo) {
         Order order = orderMapper.selectByUserIdAndOrderNo(userId, orderNo);
         if (order != null) {
@@ -150,6 +154,7 @@ public class OrderServiceImpl implements IOrderService {
         return ServerResponse.createByErrorMessage("没有找到该订单");
     }
 
+    @Override
     public ServerResponse<PageInfo> getOrderList(Integer userId, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Order> orderList = orderMapper.selectByUserId(userId);
@@ -306,6 +311,7 @@ public class OrderServiceImpl implements IOrderService {
         return ServerResponse.createBySuccess(orderItemList);
     }
 
+    @Override
     public ServerResponse pay(Long orderNo, Integer userId, String path) {
         Map<String, String> resultMap = new HashMap<>();
         Order order = orderMapper.selectByUserIdAndOrderNo(userId, orderNo);
@@ -365,7 +371,7 @@ public class OrderServiceImpl implements IOrderService {
                 .setSubject(subject).setTotalAmount(totalAmount).setOutTradeNo(outTradeNo)
                 .setUndiscountableAmount(undiscountableAmount).setSellerId(sellerId).setBody(body)
                 .setOperatorId(operatorId).setStoreId(storeId).setExtendParams(extendParams)
-                .setTimeoutExpress(timeoutExpress).setNotifyUrl(PropertiesUtil.getProperty("alipay.callback.url"))//支付宝服务器主动通知商户服务器里指定的页面http路径,根据需要设置
+                .setTimeoutExpress(timeoutExpress).setNotifyUrl(PropertiesUtil.getProperty("alipay.callback.url"))
                 .setGoodsDetailList(goodsDetailList);
 
         Configs.init("zfbinfo.properties");
@@ -396,7 +402,7 @@ public class OrderServiceImpl implements IOrderService {
 
                 File targetFile = new File(path, qrFileName);
                 try {
-                    FTPUtil.uploadFile(Lists.newArrayList(targetFile));
+                    FtpUtil.uploadFile(Lists.newArrayList(targetFile));
                 } catch (IOException e) {
                     logger.error("上传二维码异常", e);
                 }
@@ -419,7 +425,10 @@ public class OrderServiceImpl implements IOrderService {
         }
     }
 
-    // 简单打印应答
+    /**
+     * 简单打印应答
+     * @param response  简单打印应答
+     */
     private void dumpResponse(AlipayResponse response) {
         if (response != null) {
             logger.info(String.format("code:%s, msg:%s", response.getCode(), response.getMsg()));
@@ -431,6 +440,7 @@ public class OrderServiceImpl implements IOrderService {
         }
     }
 
+    @Override
     public ServerResponse aliCallback(Map<String, String> params) {
         Long orderNo = Long.parseLong(params.get("out_trade_no"));
         String tradeNo = params.get("trade_no");
@@ -459,6 +469,7 @@ public class OrderServiceImpl implements IOrderService {
         return ServerResponse.createBySuccess();
     }
 
+    @Override
     public ServerResponse queryOrderPayStatus(Integer userId, Long orderNo) {
         Order order = orderMapper.selectByUserIdAndOrderNo(userId, orderNo);
         if (order == null) {
@@ -474,6 +485,7 @@ public class OrderServiceImpl implements IOrderService {
 
     // 后端订单管理
 
+    @Override
     public ServerResponse<PageInfo> manageList(int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Order> orderList = orderMapper.selectAllOrder();
@@ -483,6 +495,7 @@ public class OrderServiceImpl implements IOrderService {
         return ServerResponse.createBySuccess(pageResult);
     }
 
+    @Override
     public ServerResponse<OrderVo> manageDetail(Long orderNo) {
         Order order = orderMapper.selectByOrderNo(orderNo);
         if (order != null) {
@@ -493,6 +506,7 @@ public class OrderServiceImpl implements IOrderService {
         return ServerResponse.createByErrorMessage("订单不存在");
     }
 
+    @Override
     public ServerResponse<PageInfo> manageSearch(Long orderNo, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         Order order = orderMapper.selectByOrderNo(orderNo);
@@ -506,6 +520,7 @@ public class OrderServiceImpl implements IOrderService {
         return ServerResponse.createByErrorMessage("订单不存在");
     }
 
+    @Override
     public ServerResponse<String> manageSendGoods(Long orderNo) {
         Order order = orderMapper.selectByOrderNo(orderNo);
         if (order != null) {

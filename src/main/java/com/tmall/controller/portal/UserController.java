@@ -5,9 +5,6 @@ import com.tmall.common.ResponseCode;
 import com.tmall.common.ServerResponse;
 import com.tmall.pojo.User;
 import com.tmall.service.IUserService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +13,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 
+/**
+ * @author qiuxin
+ */
 @Controller
 @RequestMapping(value = "/user/")
 public class UserController {
@@ -54,11 +54,13 @@ public class UserController {
         return ServerResponse.createBySuccess();
     }
 
-    // todo 包装 pojo 类型神自动封装 ？
+
     @RequestMapping(value = "register.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<String> register(User user) {
-        return iUserService.register(user); // return msg: 注册成功 OR 注册失败
+        // 包装 pojo 类型神自动封装 ？
+        // return msg: 注册成功 OR 注册失败
+        return iUserService.register(user);
     }
 
     @RequestMapping(value = "check_valid.do", method = RequestMethod.POST)
@@ -70,8 +72,8 @@ public class UserController {
     @RequestMapping(value = "get_user_info.do", method = RequestMethod.POST)
     @ResponseBody
 
-    // 不需传入 user 对象，直接从 session 获取当前登录 user 对象，也不需查询数据库，与 get_information 方法不同
     public ServerResponse<User> getUserInfo(HttpSession session) {
+        // 不需传入 user 对象，直接从 session 获取当前登录 user 对象，也不需查询数据库，与 getInformation 方法不同
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user != null) {
             return ServerResponse.createBySuccess(user);
@@ -114,7 +116,7 @@ public class UserController {
 
     @RequestMapping(value = "update_information.do", method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse<User> update_information(HttpSession session, User user) {
+    public ServerResponse<User> updateInformation(HttpSession session, User user) {
         User currentUser = (User) session.getAttribute(Const.CURRENT_USER);
         if (currentUser == null) {
             return ServerResponse.createByErrorMessage("用户未登录");
@@ -132,7 +134,7 @@ public class UserController {
 
     @RequestMapping(value = "get_information.do", method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse<User> get_information(HttpSession session) {
+    public ServerResponse<User> getInformation(HttpSession session) {
         User currentUser = (User) session.getAttribute(Const.CURRENT_USER);
         if (currentUser == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "未登录，需要强制登录 status=10");

@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 
+/**
+ * @author qiuxin
+ */
 @Controller
 @RequestMapping(value = "/manage/category")
 public class CategoryManagerController {
@@ -24,11 +27,12 @@ public class CategoryManagerController {
     @Autowired
     private ICategoryService iCategoryService;
 
+    /**
+     * GET 方法从 URL 中获取参数，需要 @RequestParam 注解，用户身份需 user/login.do 获取的 session 验证
+     * add, set, get 商品目录的方法都需要是否登录以及是否是管理员两步验证
+     */
     @RequestMapping(value = "add_category.do")
     @ResponseBody
-
-    // GET 方法从 URL 中获取参数，需要 @RequestParam 注解，用户身份需 user/login.do 获取的 session 验证
-    // add, set, get 商品目录的方法都需要是否登录以及是否是管理员两步验证
     public ServerResponse addCategory(HttpSession session, String categoryName, @RequestParam(value = "parentId", defaultValue = "0") int parentId) {
 
         User user = (User) session.getAttribute(Const.CURRENT_USER);
@@ -57,7 +61,9 @@ public class CategoryManagerController {
         }
     }
 
-    // 查询平级节点 category，与 get_deep_category 不同，前端获取参数 categoryId 在 mapper 查询时重命名为了 parentId
+    /**
+     * 查询平级节点 category，与 get_deep_category 不同，前端获取参数 categoryId 在 mapper 查询时重命名为了 parentId
+     */
     @RequestMapping(value = "get_category.do")
     @ResponseBody
     public ServerResponse getChildrenParallelCategory(HttpSession session, @RequestParam(value = "categoryId", defaultValue = "0") int categoryId) {

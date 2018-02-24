@@ -4,6 +4,9 @@ import com.google.common.collect.Sets;
 
 import java.util.Set;
 
+/**
+ * @author qiuxin
+ */
 public class Const {
 
     public static final String CURRENT_USER = "currentUser";
@@ -20,6 +23,7 @@ public class Const {
     }
 
     public enum OrderStatusEnum{
+        // 订单支付状态
         CANCELED(0, "已取消"),
         NO_PAY(10, "未支付"),
         PAID(20, "已付款"),
@@ -62,6 +66,7 @@ public class Const {
     }
 
     public enum PayPlatformEnum {
+        // 支付平台，目前仅有支付宝
         ALIPAY(1, "支付宝");
 
         PayPlatformEnum(int code, String value) {
@@ -82,6 +87,7 @@ public class Const {
     }
 
     public enum PaymentTypeEnum {
+        // 支付方式，目前仅有在线支付
         ONLINE_PAY(1, "在线支付");
 
         PaymentTypeEnum(int code, String value) {
@@ -111,8 +117,8 @@ public class Const {
     }
 
     public interface Role{
-        int ROLE_CUSTOMER = 0; // 普通用户
-        int ROLE_ADMIN = 1; // 管理员
+        int ROLE_CUSTOMER = 0;
+        int ROLE_ADMIN = 1;
     }
 
     public interface ProductListOrderBy{
@@ -120,6 +126,7 @@ public class Const {
     }
 
     public enum ProductStatusEnum{
+        // 商品在售状态
         ON_SALE(1, "在线");
         private String value;
         private int code;

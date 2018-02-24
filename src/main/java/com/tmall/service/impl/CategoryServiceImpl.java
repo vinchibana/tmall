@@ -27,6 +27,7 @@ public class CategoryServiceImpl implements ICategoryService {
     @Autowired
     private CategoryMapper categoryMapper;
 
+    @Override
     public ServerResponse addCategory(String categoryName, Integer parentId) {
         if (parentId == null || StringUtils.isBlank(categoryName)) {
             return ServerResponse.createByErrorMessage("添加品类参数错误");
@@ -45,6 +46,7 @@ public class CategoryServiceImpl implements ICategoryService {
         return ServerResponse.createByErrorMessage("添加品类失败");
     }
 
+    @Override
     public ServerResponse updateCategoryName(Integer categoryId, String categoryName) {
         if (categoryId == null || StringUtils.isBlank(categoryName)) {
             return ServerResponse.createByErrorMessage("更新品类参数错误");
@@ -61,6 +63,7 @@ public class CategoryServiceImpl implements ICategoryService {
         return ServerResponse.createByErrorMessage("更新品类名失败");
     }
 
+    @Override
     public ServerResponse<List<Category>> getChildrenParallelCategory(Integer categoryId) {
 
         List<Category> categoryList = categoryMapper.selectChildrenParallelCategoryByParentId(categoryId);
@@ -70,8 +73,14 @@ public class CategoryServiceImpl implements ICategoryService {
         return ServerResponse.createBySuccess(categoryList);
     }
 
-    // ex：传入 categoryId = 0，查询子节点为 100001~100005
-    // 再次查询 100001 子节点为 100006~100012，下同
+    /**
+     * ex：传入 categoryId = 0，查询子节点为 100001~100005
+     * 再次查询 100001 子节点为 100006~100012，下同
+     *
+     * @param categoryId  品类ID
+     * @return  categoryIdList
+     */
+    @Override
     public ServerResponse<List<Integer>> selectCategoryAndChildrenById(Integer categoryId) {
 
         Set<Category> categorySet = Sets.newHashSet();
@@ -86,7 +95,13 @@ public class CategoryServiceImpl implements ICategoryService {
         return ServerResponse.createBySuccess(categoryIdList);
     }
 
-    // 递归找出子节点 ChildCategory
+    /**
+     * 递归找出子节点 ChildCategory
+     *
+     * @param categorySet  接收category的集合
+     * @param categoryId  品类ID
+     * @return  品类集合
+     */
     private Set<Category> findChildCategory(Set<Category> categorySet, Integer categoryId) {
         Category category = categoryMapper.selectByPrimaryKey(categoryId);
         if (category != null) {

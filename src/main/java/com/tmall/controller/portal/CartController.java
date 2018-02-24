@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 
+/**
+ * 购物车类
+ * @author qiuxin
+ */
 @Controller
 @RequestMapping(value = "/cart/")
 public class CartController {
@@ -60,7 +64,6 @@ public class CartController {
         return iCartService.list(user.getId());
     }
 
-    // 全选
     @RequestMapping(value = "select_all.do")
     @ResponseBody
     public ServerResponse<CartVo> selectAll(HttpSession session) {
@@ -71,7 +74,6 @@ public class CartController {
         return iCartService.selectOrUnSelect(user.getId(), null, Const.Cart.CHECKED);
     }
 
-    // 全部反选
     @RequestMapping(value = "un_select_all.do")
     @ResponseBody
     public ServerResponse<CartVo> unSelectAll(HttpSession session, Integer productId) {
@@ -82,7 +84,6 @@ public class CartController {
         return iCartService.selectOrUnSelect(user.getId(), productId, Const.Cart.UN_CHECKED);
     }
 
-    // 单独选择
     @RequestMapping(value = "select.do")
     @ResponseBody
     public ServerResponse<CartVo> select(HttpSession session, Integer productId) {
@@ -93,7 +94,6 @@ public class CartController {
         return iCartService.selectOrUnSelect(user.getId(), productId, Const.Cart.CHECKED);
     }
 
-    // 单独反选
     @RequestMapping(value = "un_select.do")
     @ResponseBody
     public ServerResponse<CartVo> unSelect(HttpSession session, Integer productId) {

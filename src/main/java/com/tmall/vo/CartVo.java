@@ -3,6 +3,9 @@ package com.tmall.vo;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * @author qiuxin
+ */
 public class CartVo {
 
     List<CartProductVo> cartProductVoList;

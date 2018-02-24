@@ -6,7 +6,7 @@ import com.tmall.common.TokenCache;
 import com.tmall.dao.UserMapper;
 import com.tmall.pojo.User;
 import com.tmall.service.IUserService;
-import com.tmall.util.MD5Util;
+import com.tmall.util.Md5Util;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,7 @@ public class UserServiceImpl implements IUserService {
         }
 
         // 再对传入参数 password 进行 MD5 加密后验证
-        String md5Password = MD5Util.MD5EncodeUtf8(password);
+        String md5Password = Md5Util.md5EncodeUtf8(password);
         User user = userMapper.selectLogin(username, md5Password);
         if (user == null) {
             return ServerResponse.createByErrorMessage("密码有误");
@@ -40,6 +40,7 @@ public class UserServiceImpl implements IUserService {
         return ServerResponse.createBySuccess("登录成功", user);
     }
 
+    @Override
     public ServerResponse<String> register(User user) {
 
         // 先验工作，用户名是否已存在
@@ -53,7 +54,7 @@ public class UserServiceImpl implements IUserService {
         }
 
         user.setRole(Const.Role.ROLE_CUSTOMER);
-        user.setPassword(MD5Util.MD5EncodeUtf8(user.getPassword()));
+        user.setPassword(Md5Util.md5EncodeUtf8(user.getPassword()));
 
         int resultCount = userMapper.insert(user);
         if (resultCount == 0) {
@@ -63,8 +64,10 @@ public class UserServiceImpl implements IUserService {
         return ServerResponse.createBySuccessMessage("注册成功");
     }
 
-    // 为了 email 与 username 的验证都能复用该方法才有的 type 函数与第二层 if
+    @Override
     public ServerResponse<String> checkValid(String str, String type) {
+
+        // 为了email与username的验证都能复用该方法才有的type属性与第二层if
         if (org.apache.commons.lang3.StringUtils.isNotBlank(type)) {
             if (Const.USERNAME.equals(type)) {
                 int resultCount = userMapper.checkUsername(str);
@@ -86,6 +89,7 @@ public class UserServiceImpl implements IUserService {
         return ServerResponse.createBySuccessMessage("校验成功");
     }
 
+    @Override
     public ServerResponse<String> selectQuestion(String username) {
         ServerResponse validResponse = this.checkValid(username, Const.USERNAME);
         if (validResponse.isSuccess()) {
@@ -100,13 +104,14 @@ public class UserServiceImpl implements IUserService {
         return ServerResponse.createByErrorMessage("找回密码的问题是空的");
     }
 
+    @Override
     public ServerResponse<String> checkAnswer(String username, String question, String answer) {
         int resultCount = userMapper.checkAnswer(username, question, answer);
         if (resultCount > 0) {
 
             // 找回密码问题及答案属于该用户，并且答案正确
             String forgetToken = UUID.randomUUID().toString();
-            TokenCache.setKey(TokenCache.TOKEN_PROFIX + username, forgetToken);
+            TokenCache.setKey(TokenCache.TOKEN_PREFIX + username, forgetToken);
             return ServerResponse.createBySuccess(forgetToken);
         }
         return ServerResponse.createByErrorMessage("问题答案错误");
@@ -119,6 +124,7 @@ public class UserServiceImpl implements IUserService {
      * @param forgetToken checkAnswer 后获取到的 token
      * @return 修改密码成功 or 失败
      */
+    @Override
     public ServerResponse<String> forgetResetPassword(String username, String passwordNew, String forgetToken) {
         if (org.apache.commons.lang3.StringUtils.isBlank(forgetToken)) {
             return ServerResponse.createByErrorMessage("参数错误，需要传递 token");
@@ -128,13 +134,13 @@ public class UserServiceImpl implements IUserService {
             return ServerResponse.createByErrorMessage("用户不存在");
         }
 
-        String token = TokenCache.getKey(TokenCache.TOKEN_PROFIX + username);
+        String token = TokenCache.getKey(TokenCache.TOKEN_PREFIX + username);
         if (org.apache.commons.lang3.StringUtils.isBlank(token)) {
             return ServerResponse.createByErrorMessage("token 无效或已过期");
         }
 
         if (org.apache.commons.lang3.StringUtils.equals(forgetToken, token)) {
-            String md5Password = MD5Util.MD5EncodeUtf8(passwordNew);
+            String md5Password = Md5Util.md5EncodeUtf8(passwordNew);
             int rowCount = userMapper.updatePasswordByUsername(username, md5Password);
 
             if (rowCount > 0) {
@@ -149,13 +155,14 @@ public class UserServiceImpl implements IUserService {
     /**
      * 重置密码时已提供旧密码，只需校验用户是否为当前登录用户，旧密码是否正确，不需要 token
      */
+    @Override
     public ServerResponse<String> resetPassword(String passwordOld, String passwordNew, User user) {
-        int resultCount = userMapper.checkPassword(MD5Util.MD5EncodeUtf8(passwordOld), user.getId());
+        int resultCount = userMapper.checkPassword(Md5Util.md5EncodeUtf8(passwordOld), user.getId());
         if (resultCount == 0) {
             return ServerResponse.createByErrorMessage("旧密码错误");
         }
 
-        user.setPassword(MD5Util.MD5EncodeUtf8(passwordNew));
+        user.setPassword(Md5Util.md5EncodeUtf8(passwordNew));
         int updateCount = userMapper.updateByPrimaryKeySelective(user);
         if (updateCount > 0) {
             return ServerResponse.createBySuccessMessage("密码更新成功");
@@ -163,6 +170,7 @@ public class UserServiceImpl implements IUserService {
         return ServerResponse.createByErrorMessage("密码更新失败");
     }
 
+    @Override
     public ServerResponse<User> updateInformation(User user) {
         int resultCount = userMapper.checkEmailByUserId(user.getEmail(), user.getId());
         if (resultCount > 0) {
@@ -182,6 +190,7 @@ public class UserServiceImpl implements IUserService {
         return ServerResponse.createByErrorMessage("更新个人信息失败");
     }
 
+    @Override
     public ServerResponse<User> getInformation(Integer userId) {
         User user = userMapper.selectByPrimaryKey(userId);
         if (user == null) {
@@ -194,6 +203,7 @@ public class UserServiceImpl implements IUserService {
 
     // 商城管理后台
 
+    @Override
     public ServerResponse checkAdminRole(User user) {
         if (user != null && user.getRole() == Const.Role.ROLE_ADMIN) {
             return ServerResponse.createBySuccess();

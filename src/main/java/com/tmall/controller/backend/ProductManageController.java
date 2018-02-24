@@ -23,6 +23,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
 
+/**
+ * @author qiuxin
+ */
+
 @Controller
 @RequestMapping(value = "/manage/product")
 public class ProductManageController {
@@ -68,12 +72,12 @@ public class ProductManageController {
     @RequestMapping(value = "detail.do")
     @ResponseBody
     public ServerResponse getDetail(HttpSession session, Integer productId) {
+
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录，请登录您的管理员账户");
         }
         if (iUserService.checkAdminRole(user).isSuccess()) {
-            // 获取商品详情
             return iProductService.manageProductDetail(productId);
         } else {
             return ServerResponse.createByErrorMessage("无权限操作");
@@ -82,13 +86,15 @@ public class ProductManageController {
 
     @RequestMapping(value = "list.do")
     @ResponseBody
-    public ServerResponse getList(HttpSession session, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum, @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+    public ServerResponse getList(HttpSession session,
+                                  @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                                  @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录，请登录您的管理员账户");
         }
         if (iUserService.checkAdminRole(user).isSuccess()) {
-            // 获取商品详情
             return iProductService.getProductList(pageNum, pageSize);
         } else {
             return ServerResponse.createByErrorMessage("无权限操作");
@@ -97,33 +103,52 @@ public class ProductManageController {
 
     @RequestMapping(value = "search.do")
     @ResponseBody
-    public ServerResponse productSearch(HttpSession session, String productName, Integer productId, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum, @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+    public ServerResponse productSearch(HttpSession session, String productName, Integer productId,
+                                        @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                                        @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录，请登录您的管理员账户");
         }
         if (iUserService.checkAdminRole(user).isSuccess()) {
-            // 获取商品详情
             return iProductService.searchProduct(productName, productId, pageNum, pageSize);
         } else {
             return ServerResponse.createByErrorMessage("无权限操作");
         }
     }
 
+    /**
+     * 上传产品图片功能
+     * @param session  session
+     * @param file  要上传的图片
+     * @param request  用于获取路径的request
+     * @return  fileMap
+     */
     @RequestMapping(value = "upload.do")
     @ResponseBody
-    public ServerResponse upload(HttpSession session, @RequestParam(value = "upload_file", required = false) MultipartFile file, HttpServletRequest request) {
+    public ServerResponse upload(HttpSession session,
+                                 @RequestParam(value = "upload_file", required = false) MultipartFile file,
+                                 HttpServletRequest request) {
 
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录，请登录您的管理员账户");
         }
         if (iUserService.checkAdminRole(user).isSuccess()) {
+
+            /*
+             * 从request获取各种路径总结
+             * request.getRealPath("url"); // 虚拟目录映射为实际目录
+             * request.getRealPath("./");    // 网页所在的目录
+             * request.getRealPath("../"); // 网页所在目录的上一层目录
+             * request.getContextPath();    // 应用的web目录的名称
+             */
             String path = request.getSession().getServletContext().getRealPath("upload");
             String targetFileName = iFileService.upload(file, path);
             String url = PropertiesUtil.getProperty("ftp.server.http.prefix") + targetFileName;
 
-            Map fileMap = Maps.newHashMap();
+            Map<String, String> fileMap = Maps.newHashMap();
             fileMap.put("uri", targetFileName);
             fileMap.put("url", url);
             return ServerResponse.createBySuccess(fileMap);
@@ -134,11 +159,16 @@ public class ProductManageController {
 
     @RequestMapping(value = "richtext_img_upload.do")
     @ResponseBody
-    public Map richtextImgUpload(HttpSession session, @RequestParam(value = "upload_file", required = false) MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
-        Map resultMap = Maps.newHashMap();
+    public Map richtextImgUpload(
+            HttpSession session,
+            @RequestParam(value = "upload_file", required = false) MultipartFile file,
+            HttpServletRequest request,
+            HttpServletResponse response) {
+
+        Map<String, Object> resultMap = Maps.newHashMap();
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
-            resultMap.put("succes", false);
+            resultMap.put("success", false);
             resultMap.put("msg", "请登录管理员账户");
             return resultMap;
         }

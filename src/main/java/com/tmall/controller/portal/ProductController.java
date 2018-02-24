@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+/**
+ * 商品类，目前接口仅有搜索并显示商品细节，但涉及排序分页
+ */
 @Controller
 @RequestMapping(value = "/product/")
 public class ProductController {
