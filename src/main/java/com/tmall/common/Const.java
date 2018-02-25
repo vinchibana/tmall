@@ -22,6 +22,10 @@ public class Const {
         String LIMIT_NUM_SUCCESS = "LIMIT_NUM_SUCCESS";
     }
 
+    public interface RedisCacheExtime{
+        int REDIS_SESSION_EXTIME = 60 * 30;
+    }
+
     public enum OrderStatusEnum{
         // 订单支付状态
         CANCELED(0, "已取消"),
