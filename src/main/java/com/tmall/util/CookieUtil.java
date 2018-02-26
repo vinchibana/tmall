@@ -16,7 +16,7 @@ public class CookieUtil {
     private static final String COOKIE_DOMAIN = "imooc.com";
     private static final String COOKIE_NAME = "tmall_login_token";
 
-    public static String readCookie(HttpServletRequest request) {
+    public static String readLoginToken(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {

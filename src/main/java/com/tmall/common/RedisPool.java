@@ -15,7 +15,7 @@ public class RedisPool {
     /**
      * 最大连接数
      */
-    private static Integer maxTotal = Integer.parseInt(PropertiesUtil.getProperty("redis.max.total", "20"));
+    private static Integer maxTotal = Integer.parseInt(PropertiesUtil.getProperty("redis.max.total", "200"));
 
     /**
      * 在JedisPool中最大idle状态Jedis实例个数
@@ -45,11 +45,16 @@ public class RedisPool {
         config.setMaxTotal(maxTotal);
         config.setMaxIdle(maxIdle);
         config.setMinIdle(minIdle);
+        config.setMaxWaitMillis(10000);
         config.setTestOnBorrow(testOnBorrow);
         config.setTestOnReturn(testOnReturn);
         config.setBlockWhenExhausted(true);
+        config.setTestWhileIdle(true);
+        config.setTimeBetweenEvictionRunsMillis(30000);
+        config.setNumTestsPerEvictionRun(10);
+        config.setMinEvictableIdleTimeMillis(60000);
 
-        pool = new JedisPool(config, redisIp, redisPort, 1000 * 2);
+        pool = new JedisPool(config, redisIp, redisPort, 10000);
     }
 
     static {
@@ -65,13 +70,5 @@ public class RedisPool {
     }
     public static void returnResource(Jedis jedis) {
         pool.returnResource(jedis);
-    }
-
-    public static void main(String[] args) {
-        Jedis jedis = pool.getResource();
-        jedis.set("keykey", "valuevalue");
-        returnResource(jedis);
-        pool.destroy();
-        System.out.println("program is end");
     }
 }
