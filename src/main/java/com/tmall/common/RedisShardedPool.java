@@ -1,5 +1,6 @@
 package com.tmall.common;
 
+import com.sun.istack.internal.NotNull;
 import com.tmall.util.PropertiesUtil;
 import redis.clients.jedis.*;
 import redis.clients.util.Hashing;
@@ -41,26 +42,19 @@ public class RedisShardedPool {
     private static Boolean testOnReturn = Boolean.parseBoolean(PropertiesUtil.getProperty("redis.test.return", "true"));
 
     private static String redis1Ip = PropertiesUtil.getProperty("redis1.ip");
-    private static Integer redis1Port = Integer.parseInt(PropertiesUtil.getProperty("redis1.port"));
     private static String redis2Ip = PropertiesUtil.getProperty("redis2.ip");
-    private static Integer redis2Port = Integer.parseInt(PropertiesUtil.getProperty("redis2.port"));
 
     private static void initPool() {
         JedisPoolConfig config = new JedisPoolConfig();
         config.setMaxTotal(maxTotal);
         config.setMaxIdle(maxIdle);
         config.setMinIdle(minIdle);
-        config.setMaxWaitMillis(10000);
         config.setTestOnBorrow(testOnBorrow);
         config.setTestOnReturn(testOnReturn);
         config.setBlockWhenExhausted(true);
-        config.setTestWhileIdle(true);
-        config.setTimeBetweenEvictionRunsMillis(30000);
-        config.setNumTestsPerEvictionRun(10);
-        config.setMinEvictableIdleTimeMillis(60000);
 
-        JedisShardInfo jedisShardInfo1 = new JedisShardInfo(redis1Ip, redis1Port, 10000);
-        JedisShardInfo jedisShardInfo2 = new JedisShardInfo(redis2Ip, redis2Port, 10000);
+        JedisShardInfo jedisShardInfo1 = new JedisShardInfo(redis1Ip, 6379, 2 * 1000);
+        JedisShardInfo jedisShardInfo2 = new JedisShardInfo(redis2Ip, 6380, 2 * 1000);
         List<JedisShardInfo> jedisShardInfoList = new ArrayList<>(2);
         jedisShardInfoList.add(jedisShardInfo1);
         jedisShardInfoList.add(jedisShardInfo2);

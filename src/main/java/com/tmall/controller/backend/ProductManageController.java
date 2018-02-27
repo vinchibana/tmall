@@ -1,14 +1,10 @@
 package com.tmall.controller.backend;
 
 import com.google.common.collect.Maps;
-import com.tmall.common.Const;
-import com.tmall.common.ResponseCode;
 import com.tmall.common.ServerResponse;
 import com.tmall.pojo.Product;
-import com.tmall.pojo.User;
 import com.tmall.service.IFileService;
 import com.tmall.service.IProductService;
-import com.tmall.service.IUserService;
 import com.tmall.util.PropertiesUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 /**
@@ -32,9 +27,6 @@ import java.util.Map;
 public class ProductManageController {
 
     @Autowired
-    private IUserService iUserService;
-
-    @Autowired
     private IProductService iProductService;
 
     @Autowired
@@ -42,156 +34,94 @@ public class ProductManageController {
 
     @RequestMapping(value = "save.do")
     @ResponseBody
-    public ServerResponse productSave(HttpSession session, Product product) {
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
-        if (user == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录，请登录您的管理员账户");
-        }
-        if (iUserService.checkAdminRole(user).isSuccess()) {
-            // 增加商品
-            return iProductService.saveOrUpdateProduct(product);
-        } else {
-            return ServerResponse.createByErrorMessage("无权限操作");
-        }
+    public ServerResponse productSave(Product product) {
+
+        return iProductService.saveOrUpdateProduct(product);
     }
 
     @RequestMapping(value = "set_sale_status.do")
     @ResponseBody
-    public ServerResponse setSaleStatus(HttpSession session, Integer productId, Integer status) {
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
-        if (user == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录，请登录您的管理员账户");
-        }
-        if (iUserService.checkAdminRole(user).isSuccess()) {
-            return iProductService.setSaleStatus(productId, status);
-        } else {
-            return ServerResponse.createByErrorMessage("无权限操作");
-        }
+    public ServerResponse setSaleStatus(Integer productId, Integer status) {
+
+        return iProductService.setSaleStatus(productId, status);
     }
 
     @RequestMapping(value = "detail.do")
     @ResponseBody
-    public ServerResponse getDetail(HttpSession session, Integer productId) {
+    public ServerResponse getDetail(Integer productId) {
 
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
-        if (user == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录，请登录您的管理员账户");
-        }
-        if (iUserService.checkAdminRole(user).isSuccess()) {
-            return iProductService.manageProductDetail(productId);
-        } else {
-            return ServerResponse.createByErrorMessage("无权限操作");
-        }
+        return iProductService.manageProductDetail(productId);
     }
 
     @RequestMapping(value = "list.do")
     @ResponseBody
-    public ServerResponse getList(HttpSession session,
-                                  @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
-                                  @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+    public ServerResponse getList(
+            @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
 
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
-        if (user == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录，请登录您的管理员账户");
-        }
-        if (iUserService.checkAdminRole(user).isSuccess()) {
-            return iProductService.getProductList(pageNum, pageSize);
-        } else {
-            return ServerResponse.createByErrorMessage("无权限操作");
-        }
+        return iProductService.getProductList(pageNum, pageSize);
     }
 
     @RequestMapping(value = "search.do")
     @ResponseBody
-    public ServerResponse productSearch(HttpSession session, String productName, Integer productId,
-                                        @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
-                                        @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+    public ServerResponse productSearch(
+            String productName, Integer productId,
+            @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
 
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
-        if (user == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录，请登录您的管理员账户");
-        }
-        if (iUserService.checkAdminRole(user).isSuccess()) {
-            return iProductService.searchProduct(productName, productId, pageNum, pageSize);
-        } else {
-            return ServerResponse.createByErrorMessage("无权限操作");
-        }
+        return iProductService.searchProduct(productName, productId, pageNum, pageSize);
     }
 
     /**
      * 上传产品图片功能
-     * @param session  session
      * @param file  要上传的图片
      * @param request  用于获取路径的request
      * @return  fileMap
      */
     @RequestMapping(value = "upload.do")
     @ResponseBody
-    public ServerResponse upload(HttpSession session,
-                                 @RequestParam(value = "upload_file", required = false) MultipartFile file,
-                                 HttpServletRequest request) {
+    public ServerResponse upload(
+            @RequestParam(value = "upload_file", required = false) MultipartFile file,
+            HttpServletRequest request) {
+        /*
+         * 从request获取各种路径总结
+         * request.getRealPath("url"); // 虚拟目录映射为实际目录
+         * request.getRealPath("./");    // 网页所在的目录
+         * request.getRealPath("../"); // 网页所在目录的上一层目录
+         * request.getContextPath();    // 应用的web目录的名称
+         */
+        String path = request.getSession().getServletContext().getRealPath("upload");
+        String targetFileName = iFileService.upload(file, path);
+        String url = PropertiesUtil.getProperty("ftp.server.http.prefix") + targetFileName;
 
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
-        if (user == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录，请登录您的管理员账户");
-        }
-        if (iUserService.checkAdminRole(user).isSuccess()) {
-
-            /*
-             * 从request获取各种路径总结
-             * request.getRealPath("url"); // 虚拟目录映射为实际目录
-             * request.getRealPath("./");    // 网页所在的目录
-             * request.getRealPath("../"); // 网页所在目录的上一层目录
-             * request.getContextPath();    // 应用的web目录的名称
-             */
-            String path = request.getSession().getServletContext().getRealPath("upload");
-            String targetFileName = iFileService.upload(file, path);
-            String url = PropertiesUtil.getProperty("ftp.server.http.prefix") + targetFileName;
-
-            Map<String, String> fileMap = Maps.newHashMap();
-            fileMap.put("uri", targetFileName);
-            fileMap.put("url", url);
-            return ServerResponse.createBySuccess(fileMap);
-        } else {
-            return ServerResponse.createByErrorMessage("无权限操作");
-        }
+        Map<String, String> fileMap = Maps.newHashMap();
+        fileMap.put("uri", targetFileName);
+        fileMap.put("url", url);
+        return ServerResponse.createBySuccess(fileMap);
     }
 
     @RequestMapping(value = "richtext_img_upload.do")
     @ResponseBody
     public Map richtextImgUpload(
-            HttpSession session,
             @RequestParam(value = "upload_file", required = false) MultipartFile file,
             HttpServletRequest request,
             HttpServletResponse response) {
 
         Map<String, Object> resultMap = Maps.newHashMap();
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
-        if (user == null) {
+
+        String path = request.getSession().getServletContext().getRealPath("upload");
+        String targetFileName = iFileService.upload(file, path);
+        if (StringUtils.isBlank(targetFileName)) {
             resultMap.put("success", false);
-            resultMap.put("msg", "请登录管理员账户");
-            return resultMap;
-        }
-        if (iUserService.checkAdminRole(user).isSuccess()) {
-            String path = request.getSession().getServletContext().getRealPath("upload");
-            String targetFileName = iFileService.upload(file, path);
-            if (StringUtils.isBlank(targetFileName)) {
-                resultMap.put("success", false);
-                resultMap.put("msg", "上传失败");
-                return resultMap;
-            }
-            String url = PropertiesUtil.getProperty("ftp.server.http.prefix") + targetFileName;
-            resultMap.put("success", true);
             resultMap.put("msg", "上传失败");
-            resultMap.put("file_path", url);
-
-            response.addHeader("Access-Control-Allow-Headers", "X-File-Name");
-            return resultMap;
-
-        } else {
-            resultMap.put("success", false);
-            resultMap.put("msg", "无权限操作");
             return resultMap;
         }
+        String url = PropertiesUtil.getProperty("ftp.server.http.prefix") + targetFileName;
+        resultMap.put("success", true);
+        resultMap.put("msg", "上传成功");
+        resultMap.put("file_path", url);
+
+        response.addHeader("Access-Control-Allow-Headers", "X-File-Name");
+        return resultMap;
     }
 }

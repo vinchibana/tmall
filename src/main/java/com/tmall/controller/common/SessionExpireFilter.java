@@ -40,6 +40,5 @@ public class SessionExpireFilter implements Filter {
 
     @Override
     public void destroy() {
-
     }
 }

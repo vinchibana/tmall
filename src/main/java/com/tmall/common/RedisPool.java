@@ -45,16 +45,11 @@ public class RedisPool {
         config.setMaxTotal(maxTotal);
         config.setMaxIdle(maxIdle);
         config.setMinIdle(minIdle);
-        config.setMaxWaitMillis(10000);
         config.setTestOnBorrow(testOnBorrow);
         config.setTestOnReturn(testOnReturn);
         config.setBlockWhenExhausted(true);
-        config.setTestWhileIdle(true);
-        config.setTimeBetweenEvictionRunsMillis(30000);
-        config.setNumTestsPerEvictionRun(10);
-        config.setMinEvictableIdleTimeMillis(60000);
 
-        pool = new JedisPool(config, redisIp, redisPort, 10000);
+        pool = new JedisPool(config, redisIp, 6379, 10000, null, 0);
     }
 
     static {
