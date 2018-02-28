@@ -34,7 +34,7 @@
   </filter-mapping>
   -->
 
-  <!-- spring session-->
+  <!-- spring session
   <filter>
     <filter-name>springSessionRepositoryFilter</filter-name>
     <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
@@ -43,6 +43,7 @@
     <filter-name>springSessionRepositoryFilter</filter-name>
     <url-pattern>*.do</url-pattern>
   </filter-mapping>
+  -->
 
   <listener>
     <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
@@ -65,7 +66,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>dispatcher</servlet-name>
-    <url-pattern>*.do</url-pattern>
+    <url-pattern>/</url-pattern>
   </servlet-mapping>
 
 </web-app>
