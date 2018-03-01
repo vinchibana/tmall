@@ -1,6 +1,5 @@
 package com.tmall.common;
 
-import com.sun.istack.internal.NotNull;
 import com.tmall.util.PropertiesUtil;
 import redis.clients.jedis.*;
 import redis.clients.util.Hashing;
@@ -43,6 +42,9 @@ public class RedisShardedPool {
 
     private static String redis1Ip = PropertiesUtil.getProperty("redis1.ip");
     private static String redis2Ip = PropertiesUtil.getProperty("redis2.ip");
+    private static Integer redis1Port = Integer.parseInt(PropertiesUtil.getProperty("redis1.port", "6379"));
+    private static Integer redis2Port = Integer.parseInt(PropertiesUtil.getProperty("redis2.port", "6380"));
+
 
     private static void initPool() {
         JedisPoolConfig config = new JedisPoolConfig();
@@ -53,8 +55,8 @@ public class RedisShardedPool {
         config.setTestOnReturn(testOnReturn);
         config.setBlockWhenExhausted(true);
 
-        JedisShardInfo jedisShardInfo1 = new JedisShardInfo(redis1Ip, 6379, 2 * 1000);
-        JedisShardInfo jedisShardInfo2 = new JedisShardInfo(redis2Ip, 6380, 2 * 1000);
+        JedisShardInfo jedisShardInfo1 = new JedisShardInfo(redis1Ip, redis1Port, 2 * 1000);
+        JedisShardInfo jedisShardInfo2 = new JedisShardInfo(redis2Ip, redis2Port, 2 * 1000);
         List<JedisShardInfo> jedisShardInfoList = new ArrayList<>(2);
         jedisShardInfoList.add(jedisShardInfo1);
         jedisShardInfoList.add(jedisShardInfo2);

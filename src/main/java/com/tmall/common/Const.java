@@ -130,6 +130,9 @@ public class Const {
         Set<String> PRICE_ASC_DESC = Sets.newHashSet("price_desc", "price_asc");
     }
 
+    public interface REDIS_LOCK{
+        String CLOSE_ORDER_TASK_LOCK = "CLOSE_ORDER_TASK_LOCK";
+    }
     public enum ProductStatusEnum{
         // 商品在售状态
         ON_SALE(1, "在线");

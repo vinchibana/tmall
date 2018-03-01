@@ -23,7 +23,7 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>
 
-  <!-- 重置 session 时间 filter
+  <!-- 重置 session 时间 filter -->
   <filter>
     <filter-name>sessionExpireFilter</filter-name>
     <filter-class>com.tmall.controller.common.SessionExpireFilter</filter-class>
@@ -32,7 +32,6 @@
     <filter-name>sessionExpireFilter</filter-name>
     <url-pattern>*.do</url-pattern>
   </filter-mapping>
-  -->
 
   <!-- spring session
   <filter>
