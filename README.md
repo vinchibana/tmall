@@ -4,7 +4,7 @@
 
 > 02/24/18 2.0开工，覆盖Tomcat集群+Nginx负载均衡+Redis分布式
 
-![二期架构](http://oxgw3nd2b.bkt.clouddn.com/section2-2副本.jpg)
+![section2](http://oxgw3nd2b.bkt.clouddn.com/section2.jpg)
 
 > 02/24/18 按照阿里巴巴Java代码规约插件规范代码，一期后端杀青
 
@@ -35,7 +35,7 @@ JavaWeb 初学项目，参考慕课网：https://coding.imooc.com/class/96.html
 * 前后端分离
 * 高复用服务响应对象的设计思想及抽象分装，ServerResponse<T> 对象承载，类比 `ModelAndView`
 
-![ServerResponse](http://oxgw3nd2b.bkt.clouddn.com/jetbran.png)
+![jetbran 2](http://oxgw3nd2b.bkt.clouddn.com/jetbran 2.png)
 
 ## 模块构成
 * 用户（登入登出、鉴权、注册、重置密码、获取/更新用户信息）
