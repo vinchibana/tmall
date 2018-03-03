@@ -17,18 +17,31 @@ JavaWeb 初学项目，参考慕课网：https://coding.imooc.com/class/96.html
 * 操作系统：macOS 10.13.3
 * IDE：IntelliJ IDEA 2017.3.4
 * JDK：JDK 1.8
-* Web容器：Tomcat 9.0.5
+* Web容器：Tomcat 9.0.2
 * 数据库：Mysql 5.7.20 Community Server
 * 依赖管理工具：Maven 3.5.2
 * [Mybatis-PageHelper](https://github.com/pagehelper/Mybatis-PageHelper)
 * [MyBatis Generator](http://www.mybatis.org/generator/index.html)
 * [Mybatis plugin](https://www.codesmagic.com/mybatisplugin)
-* 前后端接口测试  [Restlet Client - REST API Testing](https://restlet.com/modules/client/)
+* 前后端接口测试  [Restlet Client - REST API Testing](https://restlet.com/modules/client/) 或  [Postman](https://www.getpostman.com/)
 
 ![Restlet Client](http://oxgw3nd2b.bkt.clouddn.com/2018-02-21_19-34-18副本.png)
 
 * [支付宝 SDK](https://openhome.alipay.com/platform/home.htm)
 * 其他依赖参见 `pom.xml`
+
+
+### 个人推荐工具：🍻
+* Code：Dash, Sublime Text 3
+* 插件：AceJump, Material UI, Lombok, JRebel, Translation
+* 码字：MWeb, Quiver, iText
+* VCS：SourceTree
+* 终端：iTerm 2, tmux, FinderGo, space-vim
+* 数据库：mycli, Sequel Pro, Medis
+* 网络：Charles, Gas Mask
+* JVM：VisualVM
+* Linux：Transmit, VMware Fusion
+* 效率：Karabiner-Elements
 
 ## 后端部分一期核心
 * SpringMVC + MyBatis
@@ -47,12 +60,19 @@ JavaWeb 初学项目，参考慕课网：https://coding.imooc.com/class/96.html
 * 线上部署（JDK/Maven/Tomcat/Nginx/vsftpd/Git、自动化发布）
 * 接口测试  
 
+**v1.0 / 部分2.0 测试用接口：[By Restlet_Client](https://github.com/shuwuai/tmall/wiki/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95-By-Restlet_Client)**
+
+![tmall](http://oxgw3nd2b.bkt.clouddn.com/tmall.png)
+
+> 03/04/18 梳理用户模块逻辑
+
 ```
-Request 
+Request
 Content-Type: 
 application/x-www-form-urlencoded
 Response 
 Content-Type: 
 application/json;charset=UTF-8
 ```
+
 
