@@ -35,7 +35,7 @@ JavaWeb 初学项目，参考慕课网：https://coding.imooc.com/class/96.html
 * 前后端分离
 * 高复用服务响应对象的设计思想及抽象分装，ServerResponse<T> 对象承载，类比 `ModelAndView`
 
-![jetbran 2](http://oxgw3nd2b.bkt.clouddn.com/jetbran 2.png)
+![ServerResponse](http://oxgw3nd2b.bkt.clouddn.com/ServerResponse.png)
 
 ## 模块构成
 * 用户（登入登出、鉴权、注册、重置密码、获取/更新用户信息）
