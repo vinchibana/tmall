@@ -73,7 +73,6 @@
     </if>
   </delete>
 
-
   <insert id="insert" parameterType="com.tmall.pojo.Cart" >
     insert into mmall_cart (id, user_id, product_id, 
       quantity, checked, create_time, 

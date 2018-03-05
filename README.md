@@ -75,7 +75,7 @@ application/json;charset=UTF-8
 [Quiver](http://happenapps.com/) —— 代码笔记本，cell 形式组织内容，多种语言高亮语法支持，Dropbox 同步（主题：https://github.com/Goston/Quiver-Theme）
 ![2018-03-04_15-16-23](http://oxgw3nd2b.bkt.clouddn.com/2018-03-04_15-16-23.png)
 
-[iText](https://toolinbox.net/iText/) —— 截图识字最佳
+[iText](https://toolinbox.net/iText/) —— 看 PDF 记笔记截图识字最佳
 
 #### 码码：
 Dash
@@ -85,12 +85,14 @@ Sublime Text 3
 ![sublime](http://oxgw3nd2b.bkt.clouddn.com/sublime.png)
 
 #### 插件：
-AceJump
+AceJump —— 尝试不用鼠标……
 ![acejump](http://oxgw3nd2b.bkt.clouddn.com/acejump.png)
-Material UI
-Lombok
+
+[Material UI](https://github.com/ChrisRM/material-theme-jetbrains) —— 最爱的 UI
+
+[Lombok](https://projectlombok.org/) —— 省却一堆 Getter/Setter、constructor
 ![lombok](http://oxgw3nd2b.bkt.clouddn.com/lombok.png)
-JRebel
+
 Translation
 ![translation](http://oxgw3nd2b.bkt.clouddn.com/translation.png)
 
@@ -102,7 +104,7 @@ Translation
 [iTerm 2](https://www.iterm2.com/)（Powerline、字体：Droid Sans Mono Nerd Font、ColorPreset: https://github.com/MartinSeeler/iterm2-material-design）
 ![iterm2](http://oxgw3nd2b.bkt.clouddn.com/iterm2.png)
 
-[tmux](https://github.com/tmux/tmux) —— 终端复用，ssh 远程服务器，多开 Redis
+[tmux](https://github.com/tmux/tmux) —— 终端复用，ssh 多个远程服务器，多开 Redis
 ![tmux](http://oxgw3nd2b.bkt.clouddn.com/tmux.png)
 
 [FinderGo](https://github.com/onmyway133/FinderGo) —— Finder 内直接打开终端
@@ -130,7 +132,7 @@ Translation
 ![gasmask](http://oxgw3nd2b.bkt.clouddn.com/gasmask.png)
 
 #### JVM：
-[VisualVM](https://visualvm.github.io/) —— 各种监控
+[VisualVM](https://visualvm.github.io/) —— 各种监控，比如内存 CPU、线程、GC
 ![jvm](http://oxgw3nd2b.bkt.clouddn.com/jvm.png)
 
 #### Linux：
@@ -140,5 +142,5 @@ Translation
 
 
 #### 效率：
-[Karabiner-Elements](https://pqrs.org/osx/karabiner/) —— 改键
+[Karabiner-Elements](https://pqrs.org/osx/karabiner/) —— 改键，caps lock 改为长按——左 shift+control+option+command、短按——esc，增强 IDEA 的 keymap
 
